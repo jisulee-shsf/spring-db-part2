@@ -25,14 +25,23 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	//JdbcTemplate
+//	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+	//MyBatis
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.0'
+
+	//JPA & 스프링 데이터 JPA
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+	//H2 데이터베이스
+	runtimeOnly 'com.h2database:h2'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	runtimeOnly 'com.h2database:h2'
 
-	//테스트에서 lombok 사용
+	//테스트 lombok
 	testCompileOnly 'org.projectlombok:lombok'
 	testAnnotationProcessor 'org.projectlombok:lombok'
 }
