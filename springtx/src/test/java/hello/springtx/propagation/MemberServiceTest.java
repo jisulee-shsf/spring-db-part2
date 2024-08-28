@@ -29,7 +29,7 @@ class MemberServiceTest {
         //when
         memberService.joinV1(username);
 
-        //then
+        //then: 모든 데이터 정상 저장
         assertTrue(memberRepository.find(username).isPresent());
         assertTrue(logRepository.find(username).isPresent());
     }
@@ -48,7 +48,7 @@ class MemberServiceTest {
         assertThatThrownBy(() -> memberService.joinV1(username))
                 .isInstanceOf(RuntimeException.class);
 
-        //then
+        //then: member 정상 저장 & log 롤백
         assertTrue(memberRepository.find(username).isPresent());
         assertTrue(logRepository.find(username).isEmpty());
     }
@@ -66,7 +66,7 @@ class MemberServiceTest {
         //when
         memberService.joinV1(username);
 
-        //then
+        //then: 모든 데이터 정상 저장
         assertTrue(memberRepository.find(username).isPresent());
         assertTrue(logRepository.find(username).isPresent());
     }
@@ -84,8 +84,27 @@ class MemberServiceTest {
         //when
         memberService.joinV1(username);
 
-        //then
+        //then: 모든 데이터 정상 저장
         assertTrue(memberRepository.find(username).isPresent());
         assertTrue(logRepository.find(username).isPresent());
+    }
+
+    /**
+     * memberService     @Transactional:ON
+     * memberRepository  @Transactional:ON
+     * logRepository     @Transactional:ON -> RuntimeException
+     */
+    @Test
+    void outerTxOn_fail() {
+        //given
+        String username = "log 예외_outerTxOn_fail";
+
+        //when
+        assertThatThrownBy(() -> memberService.joinV1(username))
+                .isInstanceOf(RuntimeException.class);
+
+        //then: 모든 데이터 롤백
+        assertTrue(memberRepository.find(username).isEmpty());
+        assertTrue(logRepository.find(username).isEmpty());
     }
 }
